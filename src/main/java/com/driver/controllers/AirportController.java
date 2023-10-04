@@ -6,13 +6,11 @@ import com.driver.model.Flight;
 import com.driver.model.Passenger;
 import com.driver.services.AirportService;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AirportController {
-    @Autowired
-    private AirportService airportServiceObj;
+    private AirportService airportServiceObj = new AirportService();
 
     @PostMapping("/add_airport")
     public String addAirport(@RequestBody Airport airport) {

@@ -5,16 +5,13 @@ import com.driver.model.City;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
 import com.driver.repositories.AirportRepository;
-//import io.swagger.models.auth.In;
 import java.util.Date;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AirportService {
-    @Autowired
-    private AirportRepository airportRepositoryObj;
+    private AirportRepository airportRepositoryObj = new AirportRepository();
 
     public void addAirport(Airport airport) {
         airportRepositoryObj.addAirport(airport);
@@ -57,7 +54,7 @@ public class AirportService {
 
         for (Flight flight : list)
             if (flight.getFlightDate() == date && (flight.getFromCity() == airport.getCity() || flight.getToCity() == airport.getCity()))
-                ++count;
+                count += airportRepositoryObj.getPassengersByFlight(flight.getFlightId()).size();
 
         return count;
     }
@@ -121,6 +118,7 @@ public class AirportService {
             return null;
 
         List<Airport> airportList = airportRepositoryObj.getAllAirports();
+
         for (Airport airport : airportList)
             if (airport.getCity() == flight.getFromCity())
                 return airport.getAirportName();
