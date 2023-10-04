@@ -68,9 +68,13 @@ public class AirportService {
 
     public String bookATicket(Integer flightId, Integer passengerId) {
         Flight flight = airportRepositoryObj.getFlightById(flightId);
-        List<Integer> passengerList = airportRepositoryObj.getPassengersByFlight(flightId);
+        Passenger passenger = airportRepositoryObj.getPassengerById(passengerId);
 
-        if (airportRepositoryObj.getPassengerById(passengerId) == null || passengerList.contains(passengerId) || passengerList.size() == flight.getMaxCapacity())
+        if (flight == null || passenger == null )
+            return "FAILURE";
+
+        List<Integer> passengerList = airportRepositoryObj.getPassengersByFlight(flightId);
+        if (passengerList.contains(passengerId) || passengerList.size() == flight.getMaxCapacity())
             return "FAILURE";
 
         airportRepositoryObj.bookTicket(flightId, passengerId);
@@ -80,7 +84,9 @@ public class AirportService {
 
     public String cancelATicket(Integer flightId, Integer passengerId) {
         Flight flight = airportRepositoryObj.getFlightById(flightId);
-        if (flight == null || airportRepositoryObj.getPassengerById(passengerId) == null)
+        Passenger passenger = airportRepositoryObj.getPassengerById(passengerId);
+
+        if (flight == null || passenger == null)
             return "FAILURE";
 
         List<Integer> passengerList = airportRepositoryObj.getPassengersByFlight(flightId);
