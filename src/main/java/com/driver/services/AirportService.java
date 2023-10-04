@@ -1,9 +1,6 @@
 package com.driver.services;
 
-import com.driver.model.Airport;
-import com.driver.model.City;
-import com.driver.model.Flight;
-import com.driver.model.Passenger;
+import com.driver.model.*;
 import com.driver.repositories.AirportRepository;
 
 import java.text.SimpleDateFormat;
@@ -124,7 +121,6 @@ public class AirportService {
             return null;
 
         List<Airport> airportList = airportRepositoryObj.getAllAirports();
-
         for (Airport airport : airportList)
             if (airport.getCity() == flight.getFromCity())
                 return airport.getAirportName();
@@ -142,9 +138,5 @@ public class AirportService {
         airportRepositoryObj.addPassenger(passenger.getPassengerId(), passenger);
 
         return "SUCCESS";
-    }
-
-    public Flight getFlightById(Integer flightId) {
-        return airportRepositoryObj.getFlightById(flightId);
     }
 }

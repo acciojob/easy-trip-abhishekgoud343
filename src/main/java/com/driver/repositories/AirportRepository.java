@@ -1,8 +1,7 @@
 package com.driver.repositories;
 
-import com.driver.model.Airport;
-import com.driver.model.Flight;
-import com.driver.model.Passenger;
+import com.driver.model.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
