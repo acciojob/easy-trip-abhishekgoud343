@@ -5,6 +5,8 @@ import com.driver.model.City;
 import com.driver.model.Flight;
 import com.driver.model.Passenger;
 import com.driver.repositories.AirportRepository;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -50,10 +52,14 @@ public class AirportService {
     public int getNumberOfPeopleOn(Date date, String airportName) {
         int count = 0;
         Airport airport = airportRepositoryObj.getAirportByName(airportName);
+        if (airport == null)
+            return count;
+
         List<Flight> list = airportRepositoryObj.getAllFlights();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Flight flight : list)
-            if (flight.getFlightDate() == date && (flight.getFromCity() == airport.getCity() || flight.getToCity() == airport.getCity()))
+            if (fmt.format(flight.getFlightDate()).equals(fmt.format(date)) && (flight.getFromCity() == airport.getCity() || flight.getToCity() == airport.getCity()))
                 count += airportRepositoryObj.getPassengersByFlight(flight.getFlightId()).size();
 
         return count;
@@ -136,5 +142,9 @@ public class AirportService {
         airportRepositoryObj.addPassenger(passenger.getPassengerId(), passenger);
 
         return "SUCCESS";
+    }
+
+    public Flight getFlightById(Integer flightId) {
+        return airportRepositoryObj.getFlightById(flightId);
     }
 }
